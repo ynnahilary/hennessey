@@ -8,5 +8,6 @@ Webinar slides and marketing assets.
   - `november_webinar_slide.pptx` — editable slide
   - `november_webinar_slide.png` — preview
   - `build_slide.py` — regenerates the slide from `source/` (`python3 build_slide.py source .`, needs `python-pptx` and `Pillow`)
-  - `november_webinar_deck.pptx` / `.pdf` — full 14-slide webinar deck (title, speakers, agenda, four topic sections, Q&A, thank you)
-  - `build_deck.js` — regenerates the deck (pptxgenjs); pass a folder with `dan.png`, `rob.png`, `logo.png` (the circle crops written by `build_slide.py`) and an output folder
+  - `november_webinar_deck.pptx` / `.pdf` — full 14-slide webinar deck in the style of the earlier Hennessey speaker deck (cinematic title, navy backgrounds, half-bleed art panels, light cards)
+  - `build_assets.py` — generates the backgrounds, art panels, glowing speaker portraits and transparent logo (`python3 build_assets.py source <assets dir>`)
+  - `build_deck.js` — builds the deck from those assets with pptxgenjs (`node build_deck.js <assets dir> <output dir>`)
