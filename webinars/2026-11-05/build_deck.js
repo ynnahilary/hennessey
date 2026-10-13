@@ -94,30 +94,37 @@ async function icon(Comp, color) {
   // ---------- 1. Title ----------
   pres.addSection({ title: "Welcome" });
   let s = pres.addSlide({ masterName: "TITLE", sectionTitle: "Welcome" });
-  tx(s, "LIVE WEBINAR", { x: 0.7, y: 0.6, w: 5, h: 0.35, fontSize: 14, bold: true, charSpacing: 5, color: C.accent1 });
-  tx(s, [
-    { text: "AI AND THE", options: { breakLine: true } },
-    { text: "AGENCY", options: {} },
-  ], { x: 0.7, y: 1.05, w: 6.6, h: 2.2, fontSize: 64, bold: true, color: C.background1, valign: "top", lineSpacingMultiple: 0.92, objectName: "Title" });
-  tx(s, "OF THE FUTURE", { x: 0.7, y: 3.2, w: 6.6, h: 0.75, fontSize: 44, charSpacing: 4, color: C.accent1, objectName: "Title line 2" });
-  tx(s, "Where AI actually fits inside an agency today, and what comes next", { x: 0.7, y: 4.15, w: 5.8, h: 0.8, fontSize: 18, color: C.background2, valign: "top" });
-  await iconBadge(s, fa.FaRegCalendar, 0.7, 5.3, 0.62, "Date");
+  // left column: one shared left edge, a clear size ladder, and even gaps between groups
+  const L = 0.75, COL = 5.9;
+  tx(s, "LIVE WEBINAR", { x: L, y: 0.85, w: COL, h: 0.3, fontSize: 13, bold: true, charSpacing: 6, color: C.accent1 });
+  tx(s, "AI AND THE", { x: L, y: 1.4, w: COL, h: 0.5, fontSize: 30, charSpacing: 6, color: C.background1, objectName: "Title line 1" });
+  tx(s, "AGENCY", { x: L - 0.05, y: 1.85, w: COL + 0.5, h: 1.3, fontSize: 92, bold: true, color: C.background1, valign: "middle", objectName: "Title line 2" });
+  tx(s, "OF THE FUTURE", { x: L, y: 3.15, w: COL, h: 0.6, fontSize: 34, charSpacing: 6, color: C.accent1, objectName: "Title line 3" });
+  tx(s, "What’s deployed, what’s paying off, and what the agency of the future looks like from the inside.",
+    { x: L, y: 4.1, w: 5.6, h: 0.8, fontSize: 16, color: C.background2, valign: "top", lineSpacingMultiple: 1.2 });
+  await iconBadge(s, fa.FaRegCalendar, L, 5.3, 0.66, "Date");
   tx(s, [
     { text: "Thursday, November 5", options: { bold: true, color: C.background1, breakLine: true } },
     { text: "12:00 PM EST", options: { bold: true, color: C.accent1 } },
-    { text: "  ·  9:00 AM PST", options: { color: C.background2 } },
-  ], { x: 1.5, y: 5.25, w: 5, h: 0.75, fontSize: 17, valign: "middle" });
+    { text: "   ·   9:00 AM PST", options: { color: C.background2 } },
+  ], { x: L + 0.9, y: 5.25, w: 4.6, h: 0.76, fontSize: 17, valign: "middle", lineSpacingMultiple: 1.15 });
   tx(s, [
-    { text: "Webinar for ", options: { color: C.background2 } },
-    { text: "Hennessey Digital", options: { bold: true, color: C.background1 } },
-  ], { x: 0.7, y: 6.55, w: 5, h: 0.4, fontSize: 15 });
-  // staggered glowing portraits
-  s.addImage({ path: `${A}/dan_ring.png`, x: 7.0, y: 0.45, w: 3.6, h: 3.6, objectName: "Dan Hinckley photo", altText: "Dan Hinckley" });
-  tx(s, [{ text: "Dan Hinckley", options: { bold: true, breakLine: true } }, { text: "Herringbone", options: { color: C.accent1, fontSize: 15 } }],
-    { x: 10.55, y: 1.75, w: 2.4, h: 0.8, fontSize: 20, color: C.background1, valign: "top" });
-  s.addImage({ path: `${A}/rob_ring.png`, x: 9.3, y: 3.5, w: 3.6, h: 3.6, objectName: "Rob Coleman photo", altText: "Rob Coleman" });
-  tx(s, [{ text: "Rob Coleman", options: { bold: true, breakLine: true } }, { text: "Hennessey Digital", options: { color: C.accent1, fontSize: 15 } }],
-    { x: 6.75, y: 4.85, w: 2.5, h: 0.8, fontSize: 20, color: C.background1, align: "right", valign: "top" });
+    { text: "WEBINAR FOR  ", options: { color: C.background2 } },
+    { text: "HENNESSEY DIGITAL", options: { bold: true, color: C.background1 } },
+  ], { x: L, y: 6.55, w: COL, h: 0.3, fontSize: 11, charSpacing: 3 });
+  // staggered glowing portraits; each name sits beside its photo, centred on it
+  const speaker = (img, name, org, px, py, side) => {
+    const d = 3.3, inset = d * 0.076, cy = py + d / 2;
+    s.addImage({ path: `${A}/${img}`, x: px, y: py, w: d, h: d, objectName: name + " photo", altText: name });
+    const box = side === "right"
+      ? { x: px + d - inset + 0.2, w: 2.3, align: "left" }
+      : { x: px + inset - 0.2 - 2.5, w: 2.5, align: "right" };
+    tx(s, [{ text: name, options: { bold: true, fontSize: 20, color: C.background1, breakLine: true } },
+           { text: org, options: { fontSize: 14, color: C.accent1 } }],
+      { ...box, y: cy - 0.4, h: 0.8, valign: "middle", lineSpacingMultiple: 1.1, objectName: name + " label" });
+  };
+  speaker("dan_ring.png", "Dan Hinckley", "Herringbone", 7.25, 0.6, "right");
+  speaker("rob_ring.png", "Rob Coleman", "Hennessey Digital", 9.45, 3.6, "left");
   s.addNotes("Welcome everyone. Housekeeping: the session is recorded, use the chat, Q&A at the end.");
 
   // ---------- 2. Speakers ----------
